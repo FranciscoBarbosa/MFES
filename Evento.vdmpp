@@ -1,0 +1,52 @@
+class Evento
+types
+-- TODO Define types here
+	public String = seq of char;
+	public Data :: dia:nat1
+								 mes:nat1
+								 ano:nat1;
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+	private designacao: String;
+	private dataEvento: Data;
+	private provas: set of Prova := {};
+	private id: nat;
+	
+operations
+	public Evento : nat * String * Data * set of Prova ==> Evento
+				 Evento(id0, design, data, provas0)==(
+						 id := id0;
+						 designacao := design;
+						 dataEvento := data;
+						 provas := provas0;
+				 );
+				 
+	public adicionaProva : Prova ==> ()
+				 adicionaProva(prova) == 
+				 		 provas:= provas union {prova};
+				 
+	public getDataEvento : () ==> Data
+				 getDataEvento() == 
+				 		return dataEvento
+				 		
+				 	post RESULT = dataEvento;
+				 	
+	public getProvas : () ==> set of Prova
+				 getProvas() ==
+				 		return provas
+	
+				 post RESULT = provas;
+				 
+	public getId : () ==> nat
+				 getId() ==
+				 		return id
+				 		
+				 post RESULT = id;
+-- TODO Define operations here
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Evento

@@ -1,0 +1,80 @@
+class Prova
+types
+-- TODO Define types here
+	public String = seq of char;
+values
+-- TODO Define values here
+instance variables
+	private id: nat;
+	private tipo:String;
+	private preco: nat;
+	private atletasInscritos: set of Atleta := {};
+	private referencia: nat;
+	private numerosDorsal: set of nat :={};
+	private numInicial: nat := 1;
+	private atletasNumero: map Atleta to nat := { |-> };
+	private temposAtletas: map Atleta to nat := { |-> };
+	private fotografiasAtletas: map Atleta to String  := { |-> }
+	
+	-- pessoal inscrito
+-- TODO Define instance variables here
+operations
+	public Prova : nat * String * nat * nat ==> Prova
+				 Prova(id, tipo0, preco0, referencia0) == (
+				 				tipo := tipo0;
+				 				preco := preco0; 
+				 				referencia := referencia0;
+				 )
+				 
+				 post atletasNumero = { |-> } and temposAtletas = { |-> } and fotografiasAtletas = { |-> } and tipo = tipo0
+				 and preco = preco0 and referencia = referencia0;
+				 
+				  
+		 public inscreveAtleta: Atleta ==> ()
+						inscreveAtleta(atleta) == (
+							if atleta.estaPago(referencia, preco) then
+								 atletasInscritos := atletasInscritos union {atleta}
+						)
+		 				
+		 				pre not exists atleta1 in set atletasInscritos & atleta1.getNome() = atleta.getNome();
+		 
+		 public getAtletasInscritos: () ==> set of Atleta
+		 				getAtletasInscritos() == 
+		 					return atletasInscritos
+		 				
+		 				post RESULT = atletasInscritos;
+		 				 
+		public geraNumDorsal: Atleta ==> ()
+					 geraNumDorsal(atleta1) == (
+						 	numInicial := numInicial+1;
+						 	--numerosDorsal := numerosDorsal union {numInicial};
+						 	--return numInicial
+						 	atletasNumero := atletasNumero munion {atleta1 |-> numInicial}
+					);
+		
+					 
+		public setTempoAtleta: Atleta * nat ==> ()
+					 setTempoAtleta(atleta1, tempo) == 
+					 		temposAtletas := {atleta1 |-> tempo};
+					 		
+		public getTemposAtletas: () ==> map Atleta to nat
+					 getTemposAtletas() ==
+					 		return temposAtletas
+					 	
+					 post RESULT = temposAtletas;
+					 
+	--	public setFotografiasAtleta: Atleta ==> ()
+		--			 setFotografiasAtleta(atleta1) ==
+			--		 		fotografiasAtletas := fotografiasAtletas munion {atleta1 |-> }
+					 
+			--comprar foto			
+					 
+							
+		 				 
+		-- operacao pra adicionar atleta a prova
+-- TODO Define operations here
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Prova

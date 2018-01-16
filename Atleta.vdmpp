@@ -1,0 +1,149 @@
+class Atleta
+types
+-- TODO Define types here
+	public String = seq of char;
+	public Data :: dia:nat1
+								 mes:nat1
+								 ano:nat1;
+	public Genero = <Masculino> | <Feminino>;
+values
+-- TODO Define values here
+instance variables
+	private nome: String;
+	private nomeEquipa: String;
+	private nacionalidade: String;
+	private dataNascimento: Data;
+	private numIdentificacao: nat;
+	private email: String;
+	private morada: String;
+	private telefone: nat;
+	private nomeUtilizador: String;
+	private senha: String;
+	private nomeFed: String;
+	private numRegisto:nat;
+	private genero: Genero;
+	private idade: nat;
+	private pagamentos: map nat to nat := { |-> };
+-- TODO Define instance variables here
+operations
+	public Atleta : String * String * String * String * String * Data * nat * String * String * nat * String * nat * Genero ==> Atleta
+				 Atleta(nomeUtilizador0, senha0, nome0, nomeEquipa0, nacionalidade0, dataNascimento0, numIdentificacao0, email0, morada0, telefone0, 
+				 nomeFed0, numRegisto0, genero0) == (
+				 				nomeUtilizador := nomeUtilizador0;
+				 				senha := senha0;
+				 				nome := nome0;
+				 				nomeEquipa := nomeEquipa0;
+				 				nacionalidade := nacionalidade0;
+				 				dataNascimento := dataNascimento0;
+				 				numIdentificacao := numIdentificacao0;
+				 				email := email0;
+				 				morada := morada0;
+				 				telefone := telefone0;
+				 				nomeFed := nomeFed0;
+				 				numRegisto := numRegisto0;
+				 				genero := genero0;
+				 )
+				
+				 pre nomeUtilizador0 <> "" and senha0 <> "" and nome0 <> "" and nacionalidade0 <> "" and email0 <> "" and morada0 <> "" and telefone0 > 0
+				 
+				 post nomeUtilizador = nomeUtilizador0 and senha = senha0 and nome = nome0 and nacionalidade = nacionalidade0 
+				 and dataNascimento = dataNascimento0 and numIdentificacao = numIdentificacao0 and email = email0 and morada = morada0 
+				 and telefone = telefone0 and pagamentos= { |-> } and genero = genero0;
+				 
+	public editarNome: String ==> ()
+				 editarNome(nome0) == (
+ 						nome := nome0;
+				 )
+				 
+				 pre nome0 <> ""
+				 post nome = nome0;
+				 
+	public editarSenha: String ==> ()
+				 editarSenha(senha0) == (
+	 					senha := senha0;
+				 )
+			 
+			 pre senha0 <> ""
+			 post senha = senha0;
+			 
+	public editarEmail: String ==> ()
+				 editarEmail(email0) == (
+	 					email := email0;
+				 )
+		 
+		 pre email0 <> ""
+		 post email = email0;
+			
+	public editarDataNascimento: Data ==> ()
+			 		editarDataNascimento(data0) == (
+	 					dataNascimento := data0;
+				 )
+		 
+		 post dataNascimento = data0;	 
+		 
+	public editarMorada: String ==> ()
+			 		editarMorada(morada0) == (
+	 					morada := morada0;
+				 )
+		 
+		 post morada = morada0;	
+		 
+	public editarTelefone: nat ==> ()
+			 		editarTelefone(telefone0) == (
+	 					telefone := telefone0;
+				 )
+	 
+	 post telefone = telefone0;
+	 
+	 pure public getNome:() ==> String
+	 				getNome() ==
+	 					return nome
+	 				
+	 				post RESULT = nome;
+	 				
+	 	
+		public pagar: nat * nat ==> ()
+					 pagar(referencia, preco) ==
+					  pagamentos := pagamentos munion {referencia |-> preco};
+					  
+		public estaPago: nat * nat ==> bool
+					 estaPago(referencia, preco) ==
+					 if pagamentos(referencia) = preco then
+					 	return true  
+					 else
+					  return false;
+					  
+		public getGenero: () ==> Genero
+					 getGenero() ==
+					 		return genero
+					 
+					 post RESULT = genero;
+					 
+		public calculaIdade: Data ==> ()
+					 calculaIdade(dataAtual) ==(
+					 		
+					 		if dataAtual.mes = dataNascimento.mes then(
+									if dataAtual.dia < dataNascimento.dia then 
+											idade := dataAtual.ano - dataNascimento.ano	- 1			 			
+						 			else
+							 				idade := dataAtual.ano - dataNascimento.ano
+							 		)
+					 		elseif  dataAtual.mes < dataNascimento.mes then
+							 				idade := dataAtual.ano - dataNascimento.ano - 1
+							else	
+							 				idade := dataAtual.ano - dataNascimento.ano;
+					 		
+	 					  idade := idade
+	 	);
+	 	
+	 	public getIdade: () ==> nat
+	 				 getIdade() ==
+	 				 		return idade
+	 				 		
+	 				 post RESULT = idade;
+-- TODO Define operations here
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Atleta
