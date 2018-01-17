@@ -2,20 +2,18 @@ class Evento
 types
 -- TODO Define types here
 	public String = seq of char;
-	public Data :: dia:nat1
-								 mes:nat1
-								 ano:nat1;
+
 values
 -- TODO Define values here
 instance variables
 -- TODO Define instance variables here
 	private designacao: String;
-	private dataEvento: Data;
+	private dataEvento: Irun`Data;
 	private provas: set of Prova := {};
 	private id: nat;
 	
 operations
-	public Evento : nat * String * Data * set of Prova ==> Evento
+	public Evento : nat * String * Irun`Data * set of Prova ==> Evento
 				 Evento(id0, design, data, provas0)==(
 						 id := id0;
 						 designacao := design;
@@ -27,7 +25,7 @@ operations
 				 adicionaProva(prova) == 
 				 		 provas:= provas union {prova};
 				 
-	public getDataEvento : () ==> Data
+	public getDataEvento : () ==> Irun`Data
 				 getDataEvento() == 
 				 		return dataEvento
 				 		

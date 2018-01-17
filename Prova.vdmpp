@@ -2,31 +2,34 @@ class Prova
 types
 -- TODO Define types here
 	public String = seq of char;
+	public Tipo = <Maratona> | <Caminhada> | <MeiaMaratona>;
+	public Genero = <Masculino> | <Feminino>;
 values
 -- TODO Define values here
 instance variables
 	private id: nat;
-	private tipo:String;
+	private tipo: Tipo;
 	private preco: nat;
 	private atletasInscritos: set of Atleta := {};
 	private referencia: nat;
 	private numerosDorsal: set of nat :={};
 	private numInicial: nat := 1;
 	private atletasNumero: map Atleta to nat := { |-> };
-	private temposAtletas: map Atleta to nat := { |-> };
-	private fotografiasAtletas: map Atleta to String  := { |-> }
+	private temposAtletas: map Atleta to Tempo := { |-> };
+	private fotografiasAtletas: map Atleta to String  := { |-> };
+	private classificacao: map nat to Atleta := { |-> };
 	
 	-- pessoal inscrito
 -- TODO Define instance variables here
 operations
-	public Prova : nat * String * nat * nat ==> Prova
+	public Prova : nat * Tipo * nat * nat ==> Prova
 				 Prova(id, tipo0, preco0, referencia0) == (
 				 				tipo := tipo0;
 				 				preco := preco0; 
 				 				referencia := referencia0;
 				 )
 				 
-				 post atletasNumero = { |-> } and temposAtletas = { |-> } and fotografiasAtletas = { |-> } and tipo = tipo0
+				 post atletasNumero = { |-> } and temposAtletas = { |-> } and classificacao = { |-> } and fotografiasAtletas = { |-> } and tipo = tipo0
 				 and preco = preco0 and referencia = referencia0;
 				 
 				  
@@ -53,16 +56,38 @@ operations
 					);
 		
 					 
-		public setTempoAtleta: Atleta * nat ==> ()
+		public setTempoAtleta: Atleta * Tempo ==> ()
 					 setTempoAtleta(atleta1, tempo) == 
 					 		temposAtletas := {atleta1 |-> tempo};
 					 		
-		public getTemposAtletas: () ==> map Atleta to nat
+		public getTemposAtletas: () ==> map Atleta to Tempo
 					 getTemposAtletas() ==
 					 		return temposAtletas
 					 	
 					 post RESULT = temposAtletas;
 					 
+		public getTemposIdade: nat * nat ==> map Atleta to Tempo
+					 getTemposIdade(min,max) ==
+					 	 (dcl result : map Atleta to Tempo := { |-> };
+					 		for all atleta in set atletasInscritos
+					 		do 
+					 			(if atleta.getIdade() <= max or atleta.getIdade() >= min then
+					 					 result:={ atleta |-> temposAtletas(atleta)}
+					 			);
+					 		return result;
+					 		)
+					 		pre min < max;
+					 		
+		public getTemposGenero: Genero ==> map Atleta to Tempo
+					 getTemposGenero(genero) ==
+					 	 (dcl result : map Atleta to Tempo := { |-> };
+					 		for all atleta in set atletasInscritos
+					 		do (if atleta.getGenero() = genero then
+					 					 result:={ atleta |-> temposAtletas(atleta)}
+					 			 );
+					 		return result;
+					 		)
+					 		
 	--	public setFotografiasAtleta: Atleta ==> ()
 		--			 setFotografiasAtleta(atleta1) ==
 			--		 		fotografiasAtletas := fotografiasAtletas munion {atleta1 |-> }

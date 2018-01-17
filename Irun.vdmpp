@@ -1,6 +1,7 @@
 class Irun
 types
 -- TODO Define types here
+	public String = seq of char;
 	public Data :: dia:nat1
 								 mes:nat1
 								 ano:nat1;
@@ -8,27 +9,50 @@ values
 -- TODO Define values here
 instance variables
 
-private atletas : set of Atleta;
-private eventos : set of Evento;
+private atletas : set of Atleta:= {};
+private eventos : set of Evento:= {};
 private dataAtual: Data;
+private calendarioEventos: map Data to Evento := { |-> };
 -- TODO Define instance variables here
 operations
 
 	public Irun: Data ==> Irun
 				 Irun(dataAtual0) ==
 				 		dataAtual := dataAtual0;
-				 		
+				 	
+				 --	pre 	
 				 		
 	public adicionaEvento: Evento ==> ()
-				 adicionaEvento(evento) ==
-				 		eventos := eventos union {evento};
+				 adicionaEvento(evento) == (
+				 		eventos:= eventos union {evento};
+				 		calendarioEventos := {evento.getDataEvento() |-> evento}
+				 )
+				 
+				 pre evento not in set eventos;
 				 		
 	public registaAtleta: Atleta ==> ()
 				 registaAtleta(atleta) ==
-				 		atletas := atletas union {atleta};
+				 		atletas := atletas union {atleta}
 				 		
-	--public getResultadosProvas()
+				 pre atleta not in set atletas;
+				 
+	public getClassificacoesProva: Prova ==> map Atleta to Tempo
+				 getClassificacoesProva(prova) ==
+				 		return prova.getTemposAtletas();
 				 		
+	public calculaIdadeAtletas: () ==> ()
+				 calculaIdadeAtletas() ==
+				 		for all atleta in set atletas do
+				 			atleta.calculaIdade(dataAtual);
+				 			
+	public getClassificacoesGenero: Prova * Atleta`Genero ==> map Atleta to Tempo
+				 getClassificacoesGenero(prova,genero) ==
+				 			return prova.getTemposGenero(genero);
+				 			
+	public getClassificacoesIdade: Prova * nat * nat ==> map Atleta to Tempo
+				 getClassificacoesIdade(prova, idadeMin, idadeMax) ==
+				 			return prova.getTemposIdade(idadeMin, idadeMax);			 			
+		 		
 -- TODO Define operations here
 functions
 -- TODO Define functiones here

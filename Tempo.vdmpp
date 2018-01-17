@@ -1,0 +1,45 @@
+class Tempo
+types
+-- TODO Define types here
+	public Unidades :: horas: nat
+					  minutos: nat
+					 segundos: nat;
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+	private liquido: Unidades;
+	private oficial: Unidades;
+	private passagem: Unidades;
+operations
+	public Tempo: Unidades * Unidades * Unidades ==> Tempo
+					Tempo(liquido0, oficial0, passagem0)== (
+							 liquido := liquido0;
+							 oficial := oficial0;
+							 passagem := passagem0
+							);
+			
+	public getLiquido: () ==> Unidades
+				 getLiquido() ==
+				 		return liquido
+				 
+				 post RESULT = liquido;
+				 
+	public getOficial: () ==> Unidades
+				 getOficial() ==
+				 		return oficial
+				 
+				 post RESULT = oficial;
+				 
+				 
+	public getPassagem: () ==> Unidades
+				 getPassagem() ==
+				 		return passagem
+				 
+				 post RESULT = passagem;
+-- TODO Define operations here
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Tempo

@@ -2,9 +2,6 @@ class Atleta
 types
 -- TODO Define types here
 	public String = seq of char;
-	public Data :: dia:nat1
-								 mes:nat1
-								 ano:nat1;
 	public Genero = <Masculino> | <Feminino>;
 values
 -- TODO Define values here
@@ -12,7 +9,7 @@ instance variables
 	private nome: String;
 	private nomeEquipa: String;
 	private nacionalidade: String;
-	private dataNascimento: Data;
+	private dataNascimento: Irun`Data;
 	private numIdentificacao: nat;
 	private email: String;
 	private morada: String;
@@ -26,7 +23,7 @@ instance variables
 	private pagamentos: map nat to nat := { |-> };
 -- TODO Define instance variables here
 operations
-	public Atleta : String * String * String * String * String * Data * nat * String * String * nat * String * nat * Genero ==> Atleta
+	public Atleta : String * String * String * String * String * Irun`Data * nat * String * String * nat * String * nat * Genero ==> Atleta
 				 Atleta(nomeUtilizador0, senha0, nome0, nomeEquipa0, nacionalidade0, dataNascimento0, numIdentificacao0, email0, morada0, telefone0, 
 				 nomeFed0, numRegisto0, genero0) == (
 				 				nomeUtilizador := nomeUtilizador0;
@@ -74,7 +71,7 @@ operations
 		 pre email0 <> ""
 		 post email = email0;
 			
-	public editarDataNascimento: Data ==> ()
+	public editarDataNascimento: Irun`Data ==> ()
 			 		editarDataNascimento(data0) == (
 	 					dataNascimento := data0;
 				 )
@@ -119,7 +116,7 @@ operations
 					 
 					 post RESULT = genero;
 					 
-		public calculaIdade: Data ==> ()
+		public calculaIdade: Irun`Data ==> ()
 					 calculaIdade(dataAtual) ==(
 					 		
 					 		if dataAtual.mes = dataNascimento.mes then(
