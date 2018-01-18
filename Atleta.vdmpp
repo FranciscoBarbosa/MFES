@@ -9,7 +9,7 @@ instance variables
 	private nome: String;
 	private nomeEquipa: String;
 	private nacionalidade: String;
-	private dataNascimento: Irun`Data;
+	private dataNascimento: Data;
 	private numIdentificacao: nat;
 	private email: String;
 	private morada: String;
@@ -23,7 +23,7 @@ instance variables
 	private pagamentos: map nat to nat := { |-> };
 -- TODO Define instance variables here
 operations
-	public Atleta : String * String * String * String * String * Irun`Data * nat * String * String * nat * String * nat * Genero ==> Atleta
+	public Atleta : String * String * String * String * String * Data * nat * String * String * nat * String * nat * Genero ==> Atleta
 				 Atleta(nomeUtilizador0, senha0, nome0, nomeEquipa0, nacionalidade0, dataNascimento0, numIdentificacao0, email0, morada0, telefone0, 
 				 nomeFed0, numRegisto0, genero0) == (
 				 				nomeUtilizador := nomeUtilizador0;
@@ -71,7 +71,7 @@ operations
 		 pre email0 <> ""
 		 post email = email0;
 			
-	public editarDataNascimento: Irun`Data ==> ()
+	public editarDataNascimento: Data ==> ()
 			 		editarDataNascimento(data0) == (
 	 					dataNascimento := data0;
 				 )
@@ -116,19 +116,19 @@ operations
 					 
 					 post RESULT = genero;
 					 
-		public calculaIdade: Irun`Data ==> ()
+		public calculaIdade: Data ==> ()
 					 calculaIdade(dataAtual) ==(
 					 		
-					 		if dataAtual.mes = dataNascimento.mes then(
-									if dataAtual.dia < dataNascimento.dia then 
-											idade := dataAtual.ano - dataNascimento.ano	- 1			 			
+					 		if dataAtual.getMes() = dataNascimento.getMes() then(
+									if dataAtual.getDia() < dataNascimento.getDia() then 
+											idade := dataAtual.getAno() - dataNascimento.getAno()	- 1			 			
 						 			else
-							 				idade := dataAtual.ano - dataNascimento.ano
+							 				idade := dataAtual.getAno() - dataNascimento.getAno()
 							 		)
-					 		elseif  dataAtual.mes < dataNascimento.mes then
-							 				idade := dataAtual.ano - dataNascimento.ano - 1
+					 		elseif  dataAtual.getMes() < dataNascimento.getMes() then
+							 				idade := dataAtual.getAno() - dataNascimento.getAno() - 1
 							else	
-							 				idade := dataAtual.ano - dataNascimento.ano;
+							 				idade := dataAtual.getAno() - dataNascimento.getAno();
 					 		
 	 					  idade := idade
 	 	);

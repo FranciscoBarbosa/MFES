@@ -1,38 +1,35 @@
 class Tempo
 types
 -- TODO Define types here
-	public Unidades :: horas: nat
-					  minutos: nat
-					 segundos: nat;
 values
 -- TODO Define values here
 instance variables
 -- TODO Define instance variables here
-	private liquido: Unidades;
-	private oficial: Unidades;
-	private passagem: Unidades;
+	private liquido: nat;
+	private oficial: nat;
+	private passagem: nat;
 operations
-	public Tempo: Unidades * Unidades * Unidades ==> Tempo
+	public Tempo: nat * nat * nat ==> Tempo
 					Tempo(liquido0, oficial0, passagem0)== (
 							 liquido := liquido0;
 							 oficial := oficial0;
 							 passagem := passagem0
 							);
 			
-	public getLiquido: () ==> Unidades
+	public getLiquido: () ==> nat
 				 getLiquido() ==
 				 		return liquido
 				 
 				 post RESULT = liquido;
 				 
-	public getOficial: () ==> Unidades
+	public getOficial: () ==> nat
 				 getOficial() ==
 				 		return oficial
 				 
 				 post RESULT = oficial;
 				 
 				 
-	public getPassagem: () ==> Unidades
+	public getPassagem: () ==> nat
 				 getPassagem() ==
 				 		return passagem
 				 

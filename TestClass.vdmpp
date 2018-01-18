@@ -1,0 +1,139 @@
+class TestClass
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+operations
+		protected static assertTrue: bool ==> ()
+			assertTrue(arg) == (IO`print("Success\n"); return;)
+			pre arg;
+			
+			public static testAll: () ==> ()
+			testAll() == (
+				IO`print("\n");
+				testOps();
+			);
+			
+			public static testOps : () ==> ()
+				testOps() == (
+					
+					dcl dataAtual: Data := new Data(17,1,2018);
+					dcl irun: Irun := new Irun(dataAtual);
+					
+					-- Datas de nascimento dos atletas
+					dcl dataNascimentoAtleta1: Data := new Data(24,12,1996);
+					dcl dataNascimentoAtleta2: Data := new Data(19,6,1993);
+					dcl dataNascimentoAtleta3: Data := new Data(28,1,2004);
+					
+					-- Atletas
+					dcl atleta1: Atleta := new Atleta("kikob", "pass1", "Francisco Barbosa", "", "portuguesa", dataNascimentoAtleta1, 
+					111111111, "francisco@gmail.com", "Rua exmeplo1", 931000006, "", 0, <Masculino>);
+					
+					dcl atleta2: Atleta := new Atleta("di19", "pass2", "Diana Barbosa", "", "portuguesa", dataNascimentoAtleta2, 
+					111111111, "diana@gmail.com", "Rua exemplo2", 912828293, "", 0, <Feminino>);
+					
+					dcl atleta3: Atleta := new Atleta("gonc28", "pass3", "Goncalo Barbosa", "", "portuguesa", dataNascimentoAtleta3, 
+					111111111, "goncalo@gmail.com", "Rua exemplo3", 931002006, "", 0, <Masculino>);
+					
+					-- Datas de eventos
+					--  ja se realizou
+					dcl dataEvento1: Data := new Data(13,4,2015);
+					--ainda nao se realizou
+					dcl dataEvento2: Data := new Data(12, 7, 2018);
+					
+					dcl evento1: Evento := new Evento("color run", dataEvento1);
+					dcl evento2: Evento := new Evento("corrida solidaria", dataEvento2);
+					 
+					 
+ 				  --Prova(id, tipo0, preco0, referencia0) 
+ 				  dcl prova1: Prova := new Prova(<Maratona>, 45, 111111);
+ 				  dcl prova2: Prova := new Prova(<Caminhada>, 20, 222222);
+ 				  dcl prova3: Prova := new Prova(<MeiaMaratona>, 15, 333333);
+ 				  
+					dcl tempo1: Tempo := new Tempo(200,220,230);
+					dcl tempo2: Tempo := new Tempo(190,212,216);
+					dcl tempo3: Tempo := new Tempo(150, 167,172); 
+					-- registar os 3 atletas no site
+					irun.registaAtleta(atleta1);
+					irun.registaAtleta(atleta2);
+					irun.registaAtleta(atleta3);
+					
+					-- verificar se os 3 atletas ficaram registados
+					assertTrue(irun.getRegistados() = {atleta1, atleta2, atleta3});
+					
+					--criar o evento1
+					
+					irun.adicionaEvento(evento1);
+					irun.adicionaEvento(evento2);
+					
+					--verificar se os eventos foram criados
+					assertTrue(irun.getEventos() = {evento1, evento2});
+					--verificar se o calendario de eventos foi criado
+					assertTrue(irun.getCalendarioEventos() = {dataEvento1 |-> evento1, dataEvento2 |-> evento2});
+					
+					--calcula a idade dos atletas com base na data de nascimento e na data Atual
+					irun.calculaIdadeAtletas();
+					
+					-- Verifica se as idades estao bem calculadas
+					assertTrue(atleta1.getIdade() = 21);
+					assertTrue(atleta2.getIdade() = 24);
+					assertTrue(atleta3.getIdade() = 13);
+					
+					--adicionar provas aos eventos
+					evento1.adicionaProva(prova1);
+					evento1.adicionaProva(prova2);
+					evento2.adicionaProva(prova3);
+					
+					-- efetuar pagamentos na prova1
+					atleta1.pagar(111111,45);
+					atleta2.pagar(111111,45);
+					
+					atleta1.pagar(222222,20);
+					atleta3.pagar(222222,20);
+					
+					--verificar se o atleta pode ser inscrito/ se efetuou o pagamento
+					prova1.inscreveAtleta(atleta1);
+					prova1.inscreveAtleta(atleta2);
+					prova1.inscreveAtleta(atleta3);
+					
+					prova2.inscreveAtleta(atleta1);
+					prova2.inscreveAtleta(atleta2);
+					prova2.inscreveAtleta(atleta3);
+					
+					assertTrue(prova1.getAtletasInscritos() = {atleta1, atleta2});
+					assertTrue(prova2.getAtletasInscritos() = {atleta1, atleta3});
+					
+					
+					-- tempos dos atletas
+					irun.setTempoAtleta(prova1, atleta1, tempo1);
+					irun.setTempoAtleta(prova1, atleta2, tempo2);
+					-- atleta 3 nao esta inscrito
+					irun.setTempoAtleta(prova1, atleta3, tempo3);
+					
+					-- prova 2 ainda nao foi realizada
+					irun.setTempoAtleta(prova2, atleta1, tempo1);
+					irun.setTempoAtleta(prova2, atleta2, tempo2);
+					
+					assertTrue(irun.getClassificacoesProva(prova1) = {atleta1 |-> tempo1, atleta2 |-> tempo2});
+					assertTrue(irun.getClassificacoesProva(prova2) = { |-> });
+					
+					assertTrue(irun.getClassificacoesIdade(prova1,21,25) = {atleta1 |-> tempo1, atleta2 |-> tempo2});
+					assertTrue(irun.getClassificacoesIdade(prova1,23,30) = {atleta2 |-> tempo2});
+					assertTrue(irun.getClassificacoesIdade(prova1,18,23) = {atleta1 |-> tempo1});
+					assertTrue(irun.getClassificacoesIdade(prova2,10,20) = { |-> });
+					
+					assertTrue(irun.getClassificacoesGenero(prova1,<Masculino>) = {atleta1 |-> tempo1});
+					assertTrue(irun.getClassificacoesGenero(prova1,<Feminino>) = {atleta2 |-> tempo2});
+					assertTrue(irun.getClassificacoesGenero(prova2,<Masculino>) = { |-> });
+					
+					
+					
+					);
+-- TODO Define operations here
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end TestClass

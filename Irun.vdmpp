@@ -2,9 +2,6 @@ class Irun
 types
 -- TODO Define types here
 	public String = seq of char;
-	public Data :: dia:nat1
-								 mes:nat1
-								 ano:nat1;
 values
 -- TODO Define values here
 instance variables
@@ -13,6 +10,7 @@ private atletas : set of Atleta:= {};
 private eventos : set of Evento:= {};
 private dataAtual: Data;
 private calendarioEventos: map Data to Evento := { |-> };
+private idEvento: nat :=0;
 -- TODO Define instance variables here
 operations
 
@@ -22,13 +20,25 @@ operations
 				 	
 				 --	pre 	
 				 		
-	public adicionaEvento: Evento ==> ()
-				 adicionaEvento(evento) == (
-				 		eventos:= eventos union {evento};
-				 		calendarioEventos := {evento.getDataEvento() |-> evento}
-				 )
+		public adicionaEvento: Evento ==> ()
+					 adicionaEvento(evento) == (
+				 		eventos := eventos union {evento};
+				 		calendarioEventos := Irun`calendarioEventos munion {evento.getDataEvento() |-> evento}
+				 		)
+				 		
+				 		pre evento not in set eventos;
+	
+	--public adicionaEvento: String * Data ==> ()
+				 --adicionaEvento(designacao, data) == (
+				 		--dcl evento: Evento;
+				 		--idEvento := idEvento + 1;
+				 		--evento := new Evento(idEvento, designacao, data);
+				 		--eventos := eventos union {evento};
+				 	--	calendarioEventos := Irun`calendarioEventos munion {evento.getDataEvento() |-> evento}
+				 --);
 				 
-				 pre evento not in set eventos;
+
+			--	 pre evento not in set eventos;
 				 		
 	public registaAtleta: Atleta ==> ()
 				 registaAtleta(atleta) ==
@@ -51,7 +61,29 @@ operations
 				 			
 	public getClassificacoesIdade: Prova * nat * nat ==> map Atleta to Tempo
 				 getClassificacoesIdade(prova, idadeMin, idadeMax) ==
-				 			return prova.getTemposIdade(idadeMin, idadeMax);			 			
+				 			return prova.getTemposIdade(idadeMin, idadeMax);		
+				 			
+	public getRegistados:() ==> set of Atleta
+				 getRegistados() ==
+				 			return atletas;	 			
+				 			
+	public getEventos:() ==> set of Evento
+				 getEventos() ==
+				 			return eventos;
+				 			
+	public getCalendarioEventos:() ==> map Data to Evento
+				 getCalendarioEventos() ==
+				 			return calendarioEventos;
+				 			
+	-- verifica se a prova existe em algum evento e se a data do evento ja passou para ser possivel atribuir tempos			 			
+	public setTempoAtleta: Prova * Atleta * Tempo ==> ()
+			 	 setTempoAtleta(prova, atleta1, tempo) == 
+			 		for all evento in set eventos do 
+			 		(
+				 		if prova in set evento.getProvas() and dataAtual.maisTarde(evento.getDataEvento())
+				 		then
+				 		prova.setTempoAtleta(atleta1, tempo);
+			 		)
 		 		
 -- TODO Define operations here
 functions

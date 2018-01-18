@@ -8,24 +8,35 @@ values
 instance variables
 -- TODO Define instance variables here
 	private designacao: String;
-	private dataEvento: Irun`Data;
+	private dataEvento: Data;
 	private provas: set of Prova := {};
-	private id: nat;
+	-- private id: nat;
+	--private idProva: nat;
 	
 operations
-	public Evento : nat * String * Irun`Data * set of Prova ==> Evento
-				 Evento(id0, design, data, provas0)==(
-						 id := id0;
+	public Evento : String * Data ==> Evento
+				 Evento(design, data)==(
+						-- id := id0;
 						 designacao := design;
 						 dataEvento := data;
-						 provas := provas0;
 				 );
 				 
-	public adicionaProva : Prova ==> ()
-				 adicionaProva(prova) == 
-				 		 provas:= provas union {prova};
+				 public adicionaProva: Prova ==> () --id, tipo0, preco0, referencia0
+				 				adicionaProva(prova) ==
+				 		provas := provas union {prova}
+				 		
+				 		pre prova not in set provas;
 				 
-	public getDataEvento : () ==> Irun`Data
+	--	public adicionaProva:  Prova`Tipo * nat * nat ==> () --id, tipo0, preco0, referencia0
+		--		 adicionaProva(tipo, preco, referencia) ==
+			--	 (
+				-- 		dcl prova: Prova;
+				 	--	idProva := idProva + 1;
+				 		--prova := new Prova(idProva, tipo, preco, referencia);
+				 		--provas := provas union {prova};
+				 --);
+				 			 
+	public getDataEvento : () ==> Data
 				 getDataEvento() == 
 				 		return dataEvento
 				 		
@@ -37,11 +48,11 @@ operations
 	
 				 post RESULT = provas;
 				 
-	public getId : () ==> nat
-				 getId() ==
-				 		return id
+	--public getId : () ==> nat
+		--		 getId() ==
+			--	 		return id
 				 		
-				 post RESULT = id;
+				-- post RESULT = id;
 -- TODO Define operations here
 functions
 -- TODO Define functiones here

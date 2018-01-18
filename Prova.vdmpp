@@ -7,7 +7,7 @@ types
 values
 -- TODO Define values here
 instance variables
-	private id: nat;
+	--private id: nat;
 	private tipo: Tipo;
 	private preco: nat;
 	private atletasInscritos: set of Atleta := {};
@@ -22,8 +22,8 @@ instance variables
 	-- pessoal inscrito
 -- TODO Define instance variables here
 operations
-	public Prova : nat * Tipo * nat * nat ==> Prova
-				 Prova(id, tipo0, preco0, referencia0) == (
+	public Prova :  Tipo * nat * nat ==> Prova
+				 Prova( tipo0, preco0, referencia0) == (
 				 				tipo := tipo0;
 				 				preco := preco0; 
 				 				referencia := referencia0;
@@ -55,10 +55,15 @@ operations
 						 	atletasNumero := atletasNumero munion {atleta1 |-> numInicial}
 					);
 		
-					 
+		
 		public setTempoAtleta: Atleta * Tempo ==> ()
 					 setTempoAtleta(atleta1, tempo) == 
-					 		temposAtletas := {atleta1 |-> tempo};
+					 		
+					 		temposAtletas := {atleta1 |-> tempo}
+					 		
+					 pre atleta1 in set atletasInscritos;
+					 		
+					 		
 					 		
 		public getTemposAtletas: () ==> map Atleta to Tempo
 					 getTemposAtletas() ==
